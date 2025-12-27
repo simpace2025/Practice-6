@@ -3,45 +3,126 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Giảm cache (không đảm bảo 100% trên mọi CDN, nhưng giúp rất nhiều) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
   <title>EXAM PRACTICE 6</title>
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      height: 100%;
-      font-family: Arial, sans-serif;
-    }
-    .container {
-      display: flex;
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f2f2f2; }
+
+    /* ===== Layout 2 cột ===== */
+    .container{
       height: 100vh;
+      display: flex;
+      background: #fff;
     }
-    .left, .right {
-      height: 100%;
-      overflow-y: auto;
-      padding: 20px;
-    }
-    .left {
+    .left{
       width: 66.66%;
-      border-right: 2px solid #ccc;
-      background-color: #f9f9f9;
+      overflow-y: auto;
+      padding: 26px 26px;
+      background: #f9f9f9;
+      border-right: 2px solid #d9d9d9;
     }
-    .right {
+    .right{
       width: 33.33%;
-      background-color: #fff;
+      padding: 16px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: hidden; /* để iframe tự cuộn */
     }
-    img {
+
+    /* ===== Header ===== */
+    .page-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size: 28px;
+      font-weight: 800;
+      margin: 0 0 18px 0;
+    }
+
+    h2{
+      margin: 22px 0 10px;
+      font-size: 20px;
+    }
+
+    /* ===== Media ===== */
+    img{
       width: 100%;
-      margin-bottom: 15px;
+      max-width: 980px;
+      height: auto;
+      display: block;
+      margin: 10px 0 16px;
+      border-radius: 8px;
+      background: #fff;
     }
-    h2 {
-      margin-bottom: 20px;
-    }
-    iframe {
+
+    audio{
       width: 100%;
-      height: 2000px;
-      border: none;
+      max-width: 520px;  /* giống thanh audio trong hình bạn muốn */
+      display: block;
+      margin: 8px 0 14px;
+    }
+
+    /* ===== Form ===== */
+    .form-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0;
+    }
+    .iframe-wrap{
+      flex: 1;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+    iframe{
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* ===== Responsive (điện thoại) ===== */
+    @media (max-width: 900px){
+      .container{ flex-direction: column; height: auto; }
+      .left,.right{ width: 100%; height: auto; }
+      .right{ min-height: 80vh; }
+      .iframe-wrap{ min-height: 80vh; }
+      img, audio{ max-width: 100%; }
     }
   </style>
+
+  <!-- ✅ Cache-busting: chỉ cần đổi VERSION là ảnh/mp3 tự refresh -->
+  <script>
+    const VERSION = "20251227_01"; // <- Mỗi lần update file: đổi số này (01 -> 02 -> 03...)
+
+    window.addEventListener("DOMContentLoaded", () => {
+      // gắn ?v=VERSION cho ảnh + mp3
+      document.querySelectorAll("img[data-src], source[data-src]").forEach(el => {
+        const base = el.getAttribute("data-src");
+        el.setAttribute("src", base + "?v=" + VERSION);
+      });
+
+      // nếu muốn cả trang cũng “đổi link” để tránh cache HTML:
+      // (không bắt buộc, nhưng hữu ích)
+      const url = new URL(window.location.href);
+      if (url.searchParams.get("v") !== VERSION) {
+        url.searchParams.set("v", VERSION);
+        history.replaceState(null, "", url.toString());
+      }
+    });
+  </script>
 </head>
 
 <body>
@@ -49,56 +130,54 @@
     <div class="left">
       <div class="page-title">📘 EXAM PRACTICE 6</div>
 
-      <div class="bubble">tôi muốn giao diện thế này</div>
-
       <!-- IMAGES -->
-      <img src="JPG1/e1.png?v=1" alt="e1">
-      <img src="JPG1/e2.png?v=1" alt="e2">
+      <img data-src="JPG1/e1.png" alt="e1" />
+      <img data-src="JPG1/e2.png" alt="e2" />
 
-      <img src="JPG1/r1.png?v=1" alt="r1">
-      <img src="JPG1/r2.png?v=1" alt="r2">
-      <img src="JPG1/r3.png?v=1" alt="r3">
-      <img src="JPG1/r4.png?v=1" alt="r4">
-      <img src="JPG1/r5.png?v=1" alt="r5">
+      <img data-src="JPG1/r1.png" alt="r1" />
+      <img data-src="JPG1/r2.png" alt="r2" />
+      <img data-src="JPG1/r3.png" alt="r3" />
+      <img data-src="JPG1/r4.png" alt="r4" />
+      <img data-src="JPG1/r5.png" alt="r5" />
 
       <h2>🔊 LISTEN 1x</h2>
       <audio controls>
-        <source src="AUDIO/Part1.mp3?v=1" type="audio/mpeg">
+        <source data-src="AUDIO/Part1.mp3" type="audio/mpeg" />
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l1.png?v=1" alt="l1">
-      <img src="JPG1/l1-1.png?v=1" alt="l1-1">
+      <img data-src="JPG1/l1.png" alt="l1" />
+      <img data-src="JPG1/l1-1.png" alt="l1-1" />
 
       <h2>🔊 LISTEN 2x</h2>
       <audio controls>
-        <source src="AUDIO/Part2.mp3?v=1" type="audio/mpeg">
+        <source data-src="AUDIO/Part2.mp3" type="audio/mpeg" />
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l2.png?v=1" alt="l2">
+      <img data-src="JPG1/l2.png" alt="l2" />
 
       <h2>🔊 LISTEN 3x</h2>
       <audio controls>
-        <source src="AUDIO/Part3.mp3?v=1" type="audio/mpeg">
+        <source data-src="AUDIO/Part3.mp3" type="audio/mpeg" />
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l3.png?v=1" alt="l3">
+      <img data-src="JPG1/l3.png" alt="l3" />
 
       <h2>🔊 LISTEN 4x</h2>
       <audio controls>
-        <source src="AUDIO/Part4.mp3?v=1" type="audio/mpeg">
+        <source data-src="AUDIO/Part4.mp3" type="audio/mpeg" />
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l4.png?v=1" alt="l4">
+      <img data-src="JPG1/l4.png" alt="l4" />
 
       <h2>🔊 LISTEN 5x</h2>
       <audio controls>
-        <source src="AUDIO/Part5.mp3?v=1" type="audio/mpeg">
+        <source data-src="AUDIO/Part5.mp3" type="audio/mpeg" />
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l5.png?v=1" alt="l5">
+      <img data-src="JPG1/l5.png" alt="l5" />
 
       <h2>✍️ WRITING</h2>
-      <img src="JPG1/w1.png?v=1" alt="w1">
+      <img data-src="JPG1/w1.png" alt="w1" />
     </div>
 
     <div class="right">
@@ -114,6 +193,7 @@
   </div>
 </body>
 </html>
+
 
 
 
