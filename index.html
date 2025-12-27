@@ -1,68 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EXAM PRACTICE 6</title>
+
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background:#f2f2f2; }
+
+    /* ====== LAYOUT 2 CỘT ====== */
+    .container{
+      height: 100vh;                 /* full màn hình */
+      display: flex;
+      gap: 0;
+      background: #fff;
+    }
+
+    .left{
+      width: 66.66%;
+      overflow-y: auto;              /* cột trái tự cuộn */
+      padding: 28px 26px;
+      background: #f9f9f9;
+      border-right: 2px solid #d9d9d9;
+    }
+
+    .right{
+      width: 33.33%;
+      overflow: hidden;              /* để iframe tự cuộn */
+      background: #fff;
+      padding: 18px 18px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ====== TIÊU ĐỀ ====== */
+    .page-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size: 28px;
+      font-weight: 800;
+      margin: 0 0 18px 0;
+    }
+
+    h2{
+      margin: 22px 0 12px;
+      font-size: 20px;
+    }
+
+    /* ====== ẢNH / AUDIO ====== */
+    img{
+      width: 100%;
+      max-width: 980px;    /* để ảnh không quá to trên màn hình lớn */
+      height: auto;
+      display: block;
+      margin: 10px 0 16px;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    audio{
+      width: 100%;
+      max-width: 980px;
+      margin: 6px 0 12px;
+    }
+
+    /* ====== FORM ====== */
+    .form-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .iframe-wrap{
+      flex: 1;                 /* chiếm hết chiều cao còn lại */
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    iframe{
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* ====== BONG BÓNG (tuỳ chọn) ====== */
+    .bubble{
+      position: relative;
+      width: fit-content;
+      max-width: 320px;
+      margin: 16px 0 26px auto; /* đẩy qua phải trong cột trái */
+      padding: 18px 20px;
+      background: #fff7d6;
+      border-radius: 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      border: 2px solid #ffd27a;
+      font-size: 18px;
+      text-align: center;
+    }
+    .bubble:after{
+      content:"";
+      position:absolute;
+      right: 48px;
+      bottom: -18px;
+      width: 0; height: 0;
+      border: 18px solid transparent;
+      border-top-color: #ffd27a;
+    }
+    .bubble:before{
+      content:"";
+      position:absolute;
+      right: 50px;
+      bottom: -14px;
+      width: 0; height: 0;
+      border: 16px solid transparent;
+      border-top-color: #fff7d6;
+      z-index: 1;
+    }
+
+    /* ====== RESPONSIVE: MÀN HÌNH NHỎ THÌ XẾP DỌC ====== */
+    @media (max-width: 900px){
+      .container{ flex-direction: column; height: auto; }
+      .left,.right{ width: 100%; height: auto; }
+      .right{ min-height: 80vh; }
+      .iframe-wrap{ min-height: 80vh; }
+      img, audio{ max-width: 100%; }
+    }
+  </style>
+</head>
+
 <body>
   <div class="container">
     <div class="left">
-      <h2>📘 EXAM PRACTICE 6</h2>
+      <div class="page-title">📘 EXAM PRACTICE 6</div>
+
+      <div class="bubble">tôi muốn giao diện thế này</div>
 
       <!-- IMAGES -->
-      <img src="JPG1/e1.png?v=1" alt="e1"><br>
-      <img src="JPG1/e2.png?v=1" alt="e2"><br>
+      <img src="JPG1/e1.png?v=1" alt="e1">
+      <img src="JPG1/e2.png?v=1" alt="e2">
 
-      <img src="JPG1/r1.png?v=1" alt="r1"><br>
-      <img src="JPG1/r2.png?v=1" alt="r2"><br>
-      <img src="JPG1/r3.png?v=1" alt="r3"><br>
-      <img src="JPG1/r4.png?v=1" alt="r4"><br>
-      <img src="JPG1/r5.png?v=1" alt="r5"><br>
+      <img src="JPG1/r1.png?v=1" alt="r1">
+      <img src="JPG1/r2.png?v=1" alt="r2">
+      <img src="JPG1/r3.png?v=1" alt="r3">
+      <img src="JPG1/r4.png?v=1" alt="r4">
+      <img src="JPG1/r5.png?v=1" alt="r5">
 
       <h2>🔊 LISTEN 1x</h2>
       <audio controls>
         <source src="AUDIO/Part1.mp3?v=1" type="audio/mpeg">
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l1.png?v=1" alt="l1"><br>
-      <img src="JPG1/l1-1.png?v=1" alt="l1-1"><br>
+      <img src="JPG1/l1.png?v=1" alt="l1">
+      <img src="JPG1/l1-1.png?v=1" alt="l1-1">
 
       <h2>🔊 LISTEN 2x</h2>
       <audio controls>
         <source src="AUDIO/Part2.mp3?v=1" type="audio/mpeg">
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l2.png?v=1" alt="l2"><br>
+      <img src="JPG1/l2.png?v=1" alt="l2">
 
       <h2>🔊 LISTEN 3x</h2>
       <audio controls>
         <source src="AUDIO/Part3.mp3?v=1" type="audio/mpeg">
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l3.png?v=1" alt="l3"><br>
+      <img src="JPG1/l3.png?v=1" alt="l3">
 
       <h2>🔊 LISTEN 4x</h2>
       <audio controls>
         <source src="AUDIO/Part4.mp3?v=1" type="audio/mpeg">
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l4.png?v=1" alt="l4"><br>
+      <img src="JPG1/l4.png?v=1" alt="l4">
 
       <h2>🔊 LISTEN 5x</h2>
       <audio controls>
         <source src="AUDIO/Part5.mp3?v=1" type="audio/mpeg">
         Trình duyệt của bạn không hỗ trợ audio.
       </audio>
-      <img src="JPG1/l5.png?v=1" alt="l5"><br>
+      <img src="JPG1/l5.png?v=1" alt="l5">
 
       <h2>✍️ WRITING</h2>
-      <img src="JPG1/w1.png?v=1" alt="w1"><br>
+      <img src="JPG1/w1.png?v=1" alt="w1">
     </div>
 
     <div class="right">
-      <h2>✅ Trả lời</h2>
-      <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLSd1iefNKcDdZoYoxeGsOZtZ30GAGRb6fzvDmDTj1yWdqF1uaQ/viewform?embedded=true"
-        allowfullscreen>
-        Loading…
-      </iframe>
+      <div class="form-title">✅ Trả lời</div>
+      <div class="iframe-wrap">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSd1iefNKcDdZoYoxeGsOZtZ30GAGRb6fzvDmDTj1yWdqF1uaQ/viewform?embedded=true"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
     </div>
   </div>
 </body>
+</html>
+
+
 
 
 
